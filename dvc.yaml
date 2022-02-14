@@ -1,0 +1,24 @@
+stages:
+  process_bundles:
+    desc: Take a directory of json FHIR files and process them into distinct resource types
+    cmd: >-
+      python3 src/process_bundles.py 
+      --input-dir /data/ 
+      --output-dir resources
+    deps:
+      - src/process_bundles.py
+      - /data/
+    outs:
+      - resources
+  
+  validate_resources:
+    desc: Checks each resource is in valid FHIR format
+    cmd: >-
+      python3 src/validate_resources.py 
+      --input-dir resources/
+      --output-dir validated_resources
+    deps:
+      - src/validate_resources.py
+      - resources
+    outs:
+      - validated_resources
