@@ -4,9 +4,6 @@ services:
     build: .
     volumes: 
       - .:/app
-      #- /home/issie/code/exa-data-eng-assessment/data:/data
-    #stdin_open: true 
-    #tty: true 
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -22,7 +19,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - ./mongo:/data/db
+      - ./mongo_data:/data/db
 
 
   mongo-express:
