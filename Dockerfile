@@ -4,5 +4,7 @@ WORKDIR /app
 
 RUN pip install fire fhir.resources dvc pymongo
 
-#ENTRYPOINT ["dvc", "repro"]
-ENTRYPOINT ["/bin/bash"]
+RUN apt update && apt install git -y
+
+ENTRYPOINT ["dvc", "repro"]
+#ENTRYPOINT ["/bin/bash"]

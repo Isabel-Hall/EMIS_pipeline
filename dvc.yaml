@@ -1,13 +1,21 @@
 stages:
+  download:
+    desc: Copy data from github repo
+    cmd: src/download.sh /data
+    deps: 
+      - src/download.sh
+    outs:
+      - /data
+
   process_bundles:
     desc: Take a directory of json FHIR files and process them into distinct resource types
     cmd: >-
       python3 src/process_bundles.py 
-      --input-dir /data/ 
+      --input-dir /data/data 
       --output-dir resources
     deps:
       - src/process_bundles.py
-      - /data/
+      - /data/data
     outs:
       - resources
   
@@ -21,4 +29,14 @@ stages:
       - src/validate_resources.py
       - resources
     outs:
+      - validated_resources
+
+  create_collections:
+    desc: Takes the validated resources and uploads them to a mongoDB client
+    cmd: >-
+      python3 src/db.py
+      add_many_collections
+      validated_resources
+    deps:
+      - src/db.py
       - validated_resources
